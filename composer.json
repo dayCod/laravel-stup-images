@@ -1,0 +1,31 @@
+{
+    "name": "daycode/stup-images",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "dayCod",
+            "email": "alayarahman07@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "DayCod\\StupImages\\": "src/"
+        },
+        "classmap": [
+            "DAY/facades"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "DayCod\\StupImages\\StupImageServiceProvider"
+            ],
+            "aliases": {
+                "StupImageFacades": "DayCod\\StupImages\\StupImageFacades"
+            }
+        }
+    }
+}
