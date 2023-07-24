@@ -26,7 +26,7 @@ and then for the usage let's use this functions
 ```php
 (new StupImages($filename, $path, $width, $height))->StupImagesToStorage($new_image_file, $old_image_file = null)
 ```
-Here's the rules that you have to follow:
+Here's the rules that you must to follow:
 ```php
 $filename = "Filename cannot be an empty string ``";
 $path = "Path cannot be an empty string ``";
