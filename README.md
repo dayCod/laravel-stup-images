@@ -30,8 +30,8 @@ Here's the rules that you have to follow:
 ```php
 $filename = "Filename cannot be an empty string ``";
 $path = "Path cannot be an empty string ``";
-$width = "Width Basically is Dimension and Dimension would`nt be lower than zero or negative"
-$height = "Height Basically is Dimension and Dimension would`nt be lower than zero or negative"
+$width = "Width Basically is Dimension and Dimension would`nt be lower than zero or negative";
+$height = "Height Basically is Dimension and Dimension would`nt be lower than zero or negative";
 ```
 
 
