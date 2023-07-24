@@ -38,6 +38,12 @@ $height = "Height input must be an integer";
 $height = "Height Basically is Dimension and Dimension would`nt be lower than zero or negative";
 ```
 
+if you want to get the filename use this:
+```php
+(new StupImageFunctions())->getFileName($old_image_file);
+
+// $old_image_file is a value from the database table where you stored at
+```
 
 ## Usage Examples
 
