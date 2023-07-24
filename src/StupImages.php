@@ -55,11 +55,12 @@ class StupImages
      */
     public function StupImagesToStorage(mixed $new_image_file, mixed $old_image_file = null)
     {
-        return (new StupImagesConstructor(
+        return (new StupImagesConstructor())->storeToStorage(
             StringRuleParameter::string($this->filename),
             StringRuleParameter::string($this->path),
             ImageRatioParameter::ratio($this->width),
-            ImageRatioParameter::ratio($this->height)
-        ))->storeToStorage($new_image_file, $old_image_file);
+            ImageRatioParameter::ratio($this->height),
+            $new_image_file,
+            $old_image_file);
     }
 }
