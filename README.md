@@ -30,7 +30,11 @@ Here's the rules that you must to follow:
 ```php
 $filename = "Filename cannot be an empty string ``";
 $path = "Path cannot be an empty string ``";
+
+$width = "Width input must be an integer";
 $width = "Width Basically is Dimension and Dimension would`nt be lower than zero or negative";
+
+$height = "Height input must be an integer";
 $height = "Height Basically is Dimension and Dimension would`nt be lower than zero or negative";
 ```
 
