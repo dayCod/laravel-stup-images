@@ -1,6 +1,7 @@
 {
     "name": "daycode/stup-images",
     "type": "library",
+    "description": "Stup Images or Store Or Update Images is a Package For Storing / Updating the Images, More Clear Codes and Upgrade Readability",
     "license": "MIT",
     "authors": [
         {
@@ -9,7 +10,9 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {},
+    "require": {
+        "intervention/image": "^2.7"
+    },
     "autoload": {
         "psr-4": {
             "DayCod\\StupImages\\": "src/"
