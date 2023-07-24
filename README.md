@@ -125,7 +125,8 @@ public function update(Request $request, $id): RedirectResponse
         'password' => bcrypt($request->password),
         'user_profile_img' => (is_null($request->file('user_profile_img'))) 
             ? $user->fresh()->user_profile_img 
-            : (new StupImages('user-profile', 'profile', 300, 300))->StupImagesToStorage($request->file('user_profile_img'), $user->user_profile_img),
+            : (new StupImages('user-profile', 'profile', 300, 300))
+                ->StupImagesToStorage($request->file('user_profile_img'), $user->fresh()->user_profile_img),
     ]);
 }
 ```
