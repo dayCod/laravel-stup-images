@@ -1,9 +1,9 @@
-# Charable Laravel Facade
+# Laravel Stup Images
 Stup Images or Store Or Update Images is a Package For Storing / Updating the Images, More Clear Codes and Upgrade Readability.
 
 ## Installation Guide
 ```bash
-composer require daycode/charable
+composer require daycode/stup-images
 ```
 Update to the newest laravel project vendor
 ```bash
@@ -124,10 +124,11 @@ public function update(Request $request, $id): RedirectResponse
 }
 ```
 
-## Tested on 
+## Version
 | Release                | Supported Versions |
 |------------------------|--------------------|
-| Laravel Charable 1.0.0 | Laravel 8/9/10     |
+| Laravel Stup Img 1.0.0 | Laravel 8/9/10     |
+| Intervention Images    | ^2.7               |
 
 
 
