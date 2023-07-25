@@ -15,6 +15,11 @@ Last, for make sure this package installed correctly.
 composer dump-autoload && php artisan optimize:clear
 ```
 
+Because this package use storage path as a default path, You must to link between public and storage folder:
+```bash
+php artisan storage:link
+```
+
 ## Usage Explanation
 You must use these class on top of your codes
 ```php

@@ -16,19 +16,13 @@
     "autoload": {
         "psr-4": {
             "DayCod\\StupImages\\": "src/"
-        },
-        "classmap": [
-            "DAY/facades"
-        ]
+        }
     },
     "extra": {
         "laravel": {
             "providers": [
                 "DayCod\\StupImages\\StupImageServiceProvider"
-            ],
-            "aliases": {
-                "StupImageFacades": "DayCod\\StupImages\\StupImageFacades"
-            }
+            ]
         }
     }
 }
