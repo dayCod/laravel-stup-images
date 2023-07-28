@@ -142,6 +142,13 @@ public function update(Request $request, $id): RedirectResponse
 }
 ```
 
+## Contributor
+- [Wirandra Alaya](https://github.com/dayCod)
+
+## Credits
+- [Intervention](https://github.com/Intervention)
+- [Intervention Image](https://github.com/Intervention/image)
+
 ## Version
 | Release                | Supported Versions |
 |------------------------|--------------------|
