@@ -145,6 +145,7 @@ public function update(Request $request, $id): RedirectResponse
 ## Credits
 - [Intervention](https://github.com/Intervention)
 - [Intervention Image](https://github.com/Intervention/image)
+- [Wirandra Alaya](https://github.com/dayCod)
 
 ## Version
 | Release                | Supported Versions |
