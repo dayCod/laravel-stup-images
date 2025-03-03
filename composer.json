@@ -18,7 +18,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "DayCod\\StupImages\\StupImageServiceProvider"
+                "Daycode\\StupImage\\StupImageServiceProvider"
             ]
         }
     },
