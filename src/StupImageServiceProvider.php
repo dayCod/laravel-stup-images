@@ -1,9 +1,10 @@
 <?php
 
-namespace DayCod\StupImages;
+declare(strict_types=1);
+
+namespace Daycode\StupImage;
 
 use Illuminate\Support\ServiceProvider;
-use DayCod\StupImage\Functions\StupImageFunctions;
 
 class StupImageServiceProvider extends ServiceProvider
 {
@@ -17,7 +18,11 @@ class StupImageServiceProvider extends ServiceProvider
         //
     }
 
-
+    /**
+     * Bootstrap the application events.
+     *
+     * @return void
+     */
     public function boot()
     {
         //
