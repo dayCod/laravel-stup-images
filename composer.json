@@ -10,19 +10,19 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {
-        "intervention/image": "^2.7"
-    },
     "autoload": {
         "psr-4": {
-            "DayCod\\StupImages\\": "src/"
+            "Daycode\\StupImage\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "DayCod\\StupImages\\StupImageServiceProvider"
+                "Daycode\\StupImage\\StupImageServiceProvider"
             ]
         }
+    },
+    "require": {
+        "intervention/image": "3.11.2"
     }
 }
