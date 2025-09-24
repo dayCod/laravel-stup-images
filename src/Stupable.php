@@ -4,19 +4,15 @@ declare(strict_types=1);
 
 namespace Daycode\StupImage;
 
+use Daycode\StupImage\Services\Intervention;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Daycode\StupImage\Services\Intervention;
 use Symfony\Component\HttpFoundation\File\Exception\UploadException;
 
 trait Stupable
 {
     /**
      * Upload file
-     *
-     * @param \Illuminate\Http\UploadedFile $file
-     * @param string $folderPrefix
-     * @return string
      */
     public function uploadFile(UploadedFile $file, string $folderPrefix): string
     {
@@ -34,11 +30,6 @@ trait Stupable
 
     /**
      * Sync upload file
-     *
-     * @param \Illuminate\Http\UploadedFile $file
-     * @param string $oldFileName
-     * @param string $folderPrefix
-     * @return string
      */
     public function syncUploadFile(UploadedFile $file, ?string $oldFileName, ?string $folderPrefix): string
     {
@@ -51,10 +42,6 @@ trait Stupable
 
     /**
      * Upload multiple files
-     *
-     * @param array $files
-     * @param string $folderPrefix
-     * @return array|UploadException
      */
     public function uploadMultipleFiles(array $files, ?string $folderPrefix): array|UploadException
     {
@@ -73,10 +60,6 @@ trait Stupable
 
     /**
      * Delete file
-     *
-     * @param string $fileName
-     * @param string $folderPrefix
-     * @return void
      */
     public function deleteFile(string $fileName, string $folderPrefix): void
     {

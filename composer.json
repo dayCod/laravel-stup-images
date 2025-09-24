@@ -12,7 +12,7 @@
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "DayCod\\StupImages\\": "src/"
+            "Daycode\\StupImage\\": "src/"
         }
     },
     "extra": {

@@ -37,14 +37,11 @@ class Intervention
      */
     public function __construct()
     {
-        $this->manager = new ImageManager(new Driver());
+        $this->manager = new ImageManager(new Driver);
     }
 
     /**
      * Read image
-     *
-     * @param \Illuminate\Http\UploadedFile|null $file
-     * @return self
      */
     public function read(?UploadedFile $file): self
     {
@@ -55,9 +52,6 @@ class Intervention
 
     /**
      * Set image name
-     *
-     * @param string|null $name
-     * @return self
      */
     public function setImageName(?string $name): self
     {
@@ -68,9 +62,6 @@ class Intervention
 
     /**
      * Set image path
-     *
-     * @param string|null $path
-     * @return self
      */
     public function setPath(?string $path): self
     {
@@ -81,10 +72,6 @@ class Intervention
 
     /**
      * Resize image
-     *
-     * @param int $width
-     * @param int $height
-     * @return self
      */
     public function resize(int $width, int $height): self
     {
@@ -95,12 +82,10 @@ class Intervention
 
     /**
      * Save image
-     *
-     * @return string
      */
     public function save(): string
     {
-        if (!file_exists($this->path)) {
+        if (! file_exists($this->path)) {
             mkdir($this->path, 0775, true);
         }
 

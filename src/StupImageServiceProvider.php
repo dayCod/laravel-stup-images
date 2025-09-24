@@ -27,5 +27,4 @@ class StupImageServiceProvider extends ServiceProvider
     {
         //
     }
-
 }
