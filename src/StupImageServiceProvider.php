@@ -15,7 +15,10 @@ class StupImageServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->mergeConfigFrom(
+            path: __DIR__ . '/config/stup-image.php',
+            key: 'stup-image'
+        );
     }
 
     /**
@@ -25,6 +28,11 @@ class StupImageServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->publishes(
+            paths: [
+                __DIR__ . '/config/stup-image.php' => config_path('stup-image.php'),
+            ],
+            groups: 'stup-image'
+        );
     }
 }
