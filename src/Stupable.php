@@ -14,16 +14,30 @@ trait Stupable
     /**
      * Upload file
      */
-    public function uploadFile(UploadedFile $file, string $folderPrefix): string
+    public function uploadFile(UploadedFile $file, string $path, ?array $resize = []): string|UploadException
     {
-        $fileName = $file->getClientOriginalName();
         $fileExt = $file->getClientOriginalExtension();
-        $encodedFileName = md5(time().$fileName).'.'.$fileExt;
+
+        if (config('stup-image.allowed_extensions') !== ['*'] && !in_array($fileExt, config('stup-image.allowed_extensions'))) {
+            return new UploadException('The provided image request is not an allowed extension.');
+        }
+
+        $fileName = $file->getClientOriginalName();
+
+        if (config('stup-image.hash_filename')) {
+            $fileName = md5(time().$fileName).'.'.$fileExt;
+        } else {
+            $fileName = "{$fileName}.{$fileExt}";
+        }
 
         $service = (new Intervention)
             ->read($file)
-            ->setImageName($encodedFileName)
-            ->setPath(storage_path('app/public/'.$folderPrefix));
+            ->setImageName($fileName)
+            ->setPath(Storage::path($path));
+
+        if (!empty($resize)) {
+            $service->resize($resize[0], $resize[1]);
+        }
 
         return $service->save();
     }
@@ -31,25 +45,29 @@ trait Stupable
     /**
      * Sync upload file
      */
-    public function syncUploadFile(UploadedFile $file, ?string $oldFileName, ?string $folderPrefix): string
+    public function syncUploadFile(UploadedFile $file, ?string $oldFileName, ?string $path, ?array $resize = []): string
     {
         if (! is_null($oldFileName)) {
-            $this->deleteFile($oldFileName, $folderPrefix);
+            $this->deleteFile($oldFileName, $path);
         }
 
-        return $this->uploadFile($file, $folderPrefix);
+        return $this->uploadFile($file, $path, $resize);
     }
 
     /**
      * Upload multiple files
      */
-    public function uploadMultipleFiles(array $files, ?string $folderPrefix): array|UploadException
+    public function uploadMultipleFiles(array $files, ?string $path, ?array $resize = []): array|UploadException
     {
         if (is_array($files)) {
             $imagePath = [];
 
             foreach ($files as $file) {
-                $imagePath[] = $this->uploadFile(file: $file, folderPrefix: $folderPrefix);
+                $imagePath[] = $this->uploadFile(
+                    file: $file,
+                    path: $path,
+                    resize: $resize
+                );
             }
 
             return $imagePath;
@@ -61,10 +79,10 @@ trait Stupable
     /**
      * Delete file
      */
-    public function deleteFile(string $fileName, string $folderPrefix): void
+    public function deleteFile(string $fileName, string $path): void
     {
-        if (Storage::disk('public')->exists("{$folderPrefix}/{$fileName}")) {
-            Storage::disk('public')->delete("{$folderPrefix}/{$fileName}");
+        if (Storage::exists("{$path}/{$fileName}")) {
+            Storage::delete("{$path}/{$fileName}");
         }
     }
 }
