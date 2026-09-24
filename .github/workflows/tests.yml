@@ -1,0 +1,94 @@
+name: tests
+
+on:
+  push:
+    branches: [master, dev]
+  pull_request:
+  schedule:
+    # Weekly run to catch breakage from new Laravel / PHP releases.
+    - cron: '0 6 * * 1'
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.2', '8.3', '8.4', '8.5']
+        laravel: ['12.*', '13.*']
+        stability: [prefer-lowest, prefer-stable]
+        include:
+          - laravel: '12.*'
+            testbench: '10.*'
+          - laravel: '13.*'
+            testbench: '11.*'
+        exclude:
+          # Testbench 11 (Laravel 13) requires PHP 8.3+.
+          - php: '8.2'
+            laravel: '13.*'
+
+    name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }} - ${{ matrix.stability }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: gd, fileinfo
+          coverage: none
+
+      - name: Install dependencies
+        run: |
+          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --dev --no-interaction --no-update
+          composer update --${{ matrix.stability }} --prefer-dist --no-interaction
+
+      - name: Run tests
+        run: vendor/bin/pest --ci
+
+  coverage:
+    runs-on: ubuntu-latest
+    name: Coverage
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: gd, fileinfo
+          coverage: pcov
+
+      - run: composer update --prefer-dist --no-interaction
+
+      - name: Run tests with coverage
+        run: vendor/bin/pest --ci --coverage --min=90 --coverage-clover build/logs/clover.xml
+
+      - uses: codecov/codecov-action@v5
+        with:
+          files: build/logs/clover.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
+
+  laravel-dev:
+    runs-on: ubuntu-latest
+    name: Laravel 13.x-dev (allowed to fail)
+    continue-on-error: true
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: gd, fileinfo
+          coverage: none
+
+      - name: Install dependencies
+        run: |
+          composer config minimum-stability dev
+          composer require "laravel/framework:13.x-dev" "orchestra/testbench:11.x-dev" --dev --no-interaction --no-update
+          composer update --prefer-dist --no-interaction
+
+      - run: vendor/bin/pest --ci

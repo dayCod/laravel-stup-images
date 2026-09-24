@@ -1,0 +1,10 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    level: max
+    paths:
+        - src
+        # Classes using the traits, so the traits get analysed.
+        - tests/Fixtures
+    tmpDir: build/phpstan

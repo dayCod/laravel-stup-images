@@ -4,85 +4,90 @@ declare(strict_types=1);
 
 namespace Daycode\StupImage;
 
-use Daycode\StupImage\Services\Intervention;
+use Daycode\StupImage\Exceptions\StupImageException;
+use Daycode\StupImage\Facades\StupImage;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
-use Symfony\Component\HttpFoundation\File\Exception\UploadException;
 
+/**
+ * The v1 API, now a thin wrapper around the StupImage facade.
+ *
+ * Unlike v1, failures throw a StupImageException instead of returning an exception.
+ *
+ * @deprecated Use the StupImage facade instead. This trait will be removed in v3. See UPGRADE.md.
+ */
 trait Stupable
 {
     /**
-     * Upload file
+     * Upload a file and return its filename (relative to $path).
+     *
+     * @param  array{0?: int|null, 1?: int|null}|null  $resize
+     *
+     * @throws StupImageException
      */
-    public function uploadFile(UploadedFile $file, string $path, ?array $resize = []): string|UploadException
+    public function uploadFile(UploadedFile $file, string $path, ?array $resize = []): string
     {
-        $fileExt = $file->getClientOriginalExtension();
-
-        if (config('stup-image.allowed_extensions') !== ['*'] && !in_array($fileExt, config('stup-image.allowed_extensions'))) {
-            return new UploadException('The provided image request is not an allowed extension.');
-        }
-
-        $fileName = $file->getClientOriginalName();
-
-        if (config('stup-image.hash_filename')) {
-            $fileName = md5(time().$fileName).'.'.$fileExt;
-        } else {
-            $fileName = "{$fileName}.{$fileExt}";
-        }
-
-        $service = (new Intervention)
-            ->read($file)
-            ->setImageName($fileName)
-            ->setPath(Storage::path($path));
-
-        if (!empty($resize)) {
-            $service->resize($resize[0], $resize[1]);
-        }
-
-        return $service->save();
+        return $this->stupableUpload(StupImage::from($file), $path, $resize)->store()->filename;
     }
 
     /**
-     * Sync upload file
+     * Upload a file, then delete the old one, and return the new filename.
+     *
+     * @param  array{0?: int|null, 1?: int|null}|null  $resize
+     *
+     * @throws StupImageException
      */
     public function syncUploadFile(UploadedFile $file, ?string $oldFileName, ?string $path, ?array $resize = []): string
     {
-        if (! is_null($oldFileName)) {
-            $this->deleteFile($oldFileName, $path);
-        }
+        $old = $oldFileName === null || $oldFileName === '' ? null : self::stupablePath($path, $oldFileName);
 
-        return $this->uploadFile($file, $path, $resize);
+        return $this->stupableUpload(StupImage::replace($old, $file), $path, $resize)->store()->filename;
     }
 
     /**
-     * Upload multiple files
+     * Upload multiple files and return their filenames.
+     *
+     * @param  array<mixed>  $files
+     * @param  array{0?: int|null, 1?: int|null}|null  $resize
+     * @return list<string>
+     *
+     * @throws StupImageException
      */
-    public function uploadMultipleFiles(array $files, ?string $path, ?array $resize = []): array|UploadException
+    public function uploadMultipleFiles(array $files, ?string $path, ?array $resize = []): array
     {
-        if (is_array($files)) {
-            $imagePath = [];
-
-            foreach ($files as $file) {
-                $imagePath[] = $this->uploadFile(
-                    file: $file,
-                    path: $path,
-                    resize: $resize
-                );
-            }
-
-            return $imagePath;
-        }
-
-        return new UploadException('The provided image request is not an array.');
+        return array_values($this->stupableUpload(StupImage::many($files), $path, $resize)
+            ->store()
+            ->map(fn (StoredImage $image): string => $image->filename)
+            ->all());
     }
 
     /**
-     * Delete file
+     * Delete a file.
      */
     public function deleteFile(string $fileName, string $path): void
     {
-        if (Storage::exists("{$path}/{$fileName}")) {
-            Storage::delete("{$path}/{$fileName}");
+        StupImage::delete(self::stupablePath($path, $fileName));
+    }
+
+    /**
+     * @template TUpload of PendingUpload
+     *
+     * @param  TUpload  $upload
+     * @param  array{0?: int|null, 1?: int|null}|null  $resize
+     * @return TUpload
+     */
+    private function stupableUpload(PendingUpload $upload, ?string $path, ?array $resize): PendingUpload
+    {
+        $upload->directory($path ?? '');
+
+        if (! empty($resize)) {
+            $upload->resize($resize[0] ?? null, $resize[1] ?? null);
         }
+
+        return $upload;
+    }
+
+    private static function stupablePath(?string $path, string $fileName): string
+    {
+        return ltrim(rtrim((string) $path, '/').'/'.$fileName, '/');
     }
 }
