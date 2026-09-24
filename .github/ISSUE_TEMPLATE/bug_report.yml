@@ -1,0 +1,45 @@
+name: Bug report
+description: Report something that doesn't work as expected
+labels: [bug]
+body:
+  - type: input
+    id: package-version
+    attributes:
+      label: Package version
+      placeholder: 2.0.0
+    validations:
+      required: true
+  - type: input
+    id: laravel-version
+    attributes:
+      label: Laravel version
+      placeholder: 13.0.0
+    validations:
+      required: true
+  - type: input
+    id: php-version
+    attributes:
+      label: PHP version and image driver
+      placeholder: 8.4, gd
+    validations:
+      required: true
+  - type: input
+    id: disk
+    attributes:
+      label: Disk driver
+      placeholder: local, s3, ...
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: What did you expect, and what happened instead? Include the exception message if there is one.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: A minimal code sample or a failing test.
+      render: php
+    validations:
+      required: true

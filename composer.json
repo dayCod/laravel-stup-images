@@ -1,7 +1,18 @@
 {
     "name": "daycode/stup-images",
     "type": "library",
-    "description": "Stup Images or Store Or Update Images is a Package For Storing / Updating the Images, More Clear Codes and Upgrade Readability",
+    "description": "Image upload for Laravel without tables or migrations: validate, resize, convert and store to any disk in one statement.",
+    "keywords": [
+        "laravel",
+        "image",
+        "upload",
+        "resize",
+        "intervention",
+        "storage",
+        "s3",
+        "webp"
+    ],
+    "homepage": "https://github.com/dayCod/laravel-stup-images",
     "license": "MIT",
     "authors": [
         {
@@ -9,20 +20,60 @@
             "email": "alayarahman07@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
+    "require": {
+        "php": "^8.2",
+        "illuminate/bus": "^12.0|^13.0",
+        "illuminate/console": "^12.0|^13.0",
+        "illuminate/contracts": "^12.0|^13.0",
+        "illuminate/filesystem": "^12.0|^13.0",
+        "illuminate/http": "^12.0|^13.0",
+        "illuminate/support": "^12.0|^13.0",
+        "intervention/image": "^3.11",
+        "spatie/laravel-package-tools": "^1.19"
+    },
+    "require-dev": {
+        "larastan/larastan": "^3.0",
+        "laravel/pint": "^1.18",
+        "orchestra/testbench": "^10.0|^11.0",
+        "pestphp/pest": "^3.0|^4.0",
+        "pestphp/pest-plugin-laravel": "^3.0|^4.0"
+    },
+    "suggest": {
+        "illuminate/database": "Required to use the HasStupImages Eloquent trait (^12.0|^13.0).",
+        "ext-imagick": "Required to use the imagick driver."
+    },
     "autoload": {
         "psr-4": {
             "Daycode\\StupImage\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Daycode\\StupImage\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage --min=90",
+        "analyse": "vendor/bin/phpstan analyse --memory-limit=1G",
+        "format": "vendor/bin/pint"
+    },
     "extra": {
         "laravel": {
             "providers": [
                 "Daycode\\StupImage\\StupImageServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "StupImage": "Daycode\\StupImage\\Facades\\StupImage"
+            }
         }
     },
-    "require": {
-        "intervention/image": "3.11.2"
-    }
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
 }

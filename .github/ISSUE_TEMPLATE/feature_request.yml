@@ -1,0 +1,22 @@
+name: Feature request
+description: Suggest an idea for Stup Image
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Stup Image aims to stay simple: features should work without extra tables and without required configuration.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed API
+      description: How would you like to use it?
+      render: php
+    validations:
+      required: true
