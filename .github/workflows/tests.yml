@@ -65,7 +65,7 @@ jobs:
       - name: Run tests with coverage
         run: vendor/bin/pest --ci --coverage --min=90 --coverage-clover build/logs/clover.xml
 
-      - uses: codecov/codecov-action@v5
+      - uses: codecov/codecov-action@v7
         with:
           files: build/logs/clover.xml
           token: ${{ secrets.CODECOV_TOKEN }}
