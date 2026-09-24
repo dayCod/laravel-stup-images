@@ -4,7 +4,7 @@ All notable changes to `daycode/stup-images` are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] - 2.0.0
+## [2.0.0] - 2026-09-24
 
 A rewrite: disk-agnostic, fully tested and simpler to use. See [UPGRADE.md](UPGRADE.md).
 
@@ -63,5 +63,5 @@ A rewrite: disk-agnostic, fully tested and simpler to use. See [UPGRADE.md](UPGR
 - Stupable trait with `uploadFile`, `syncUploadFile`, `uploadMultipleFiles` and `deleteFile`.
 - `StupImageServiceProvider` and a publishable config.
 
-[Unreleased]: https://github.com/dayCod/laravel-stup-images/compare/v1.3.0...HEAD
+[2.0.0]: https://github.com/dayCod/laravel-stup-images/compare/v1.3.0...v2.0.0
 [1.3.0]: https://github.com/dayCod/laravel-stup-images/releases/tag/v1.3.0
